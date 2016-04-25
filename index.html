@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Vue</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="app.css">
+    </head>
+    <body>
+        <div id="app">
+            <div class="container">
+                    <div id="tasks">
+                        <div class="col-md-6">
+                            <h2>Tasks ({{ remaining.length }})</h2>
+                        <div v-show="remaining.length">
+                            <ol class="list-group">
+                                <li v-for="task in tasks | inProgress" class="list-group-item">
+                                    <span v-on:dblclick="editTask(task)" v-bind:class="{{ 'completed': task.completed }}">
+                                        {{ task.body }}
+                                    </span>
+
+                                    <button v-on:click="removeTask(task)">X</button>
+                                    <button v-on:click="toggleTask(task)">O</button>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <hr>
+
+                        <h2>Completed ({{ completions.length }})</h2>
+
+                        <div v-if="completions.length">
+
+
+                            <ol class="list-group">
+                                <li v-for="task in tasks | taskCompleted" class="list-group-item">
+                                    {{ task.body }}
+
+                                    <button v-on:click="toggleTask(task)">X</button>
+                                </li>
+                            </ol>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <h2>
+                                Create Tasks
+                            </h2>
+                            <form v-on:submit="addTask">
+                                <div class="form-group">
+                                    <input v-model="newTask" v-el="newTask" class="form-control" placeholder="I need to...">
+                                </div>
+
+                                <button class="btn btn-primary">Add Task</button>
+                                <button v-on:click="completeAll" class="btn btn-default">Mark All As Complete</button>
+                                <button v-on:click="incompleteAll" class="btn btn-default">Mark All As Incomplete</button>
+                                <button v-on:click="deleteAll" class="btn btn-danger">Delete All</button>
+                            </form>
+
+                            <h3>How to use:</h3>
+                            <p>
+                                Fill in the above field and click Add Task, you may only Add Task if
+                                the task field has been filled in.
+                            </p>
+
+                            <h3>Json</h3>
+                            <pre>
+                                {{ $data | json }}
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="vue.min.js"></script>
+        <script src="app.js"></script>
+
+        <!-- Dev Tools -->
+        <script src="http://localhost:35729/livereload.js"></script>
+    </body>
+</html>
